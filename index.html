@@ -95,7 +95,7 @@
       box-shadow: inset 0 1px 1px var(--glass-shine), 0 12px 40px 0 rgba(0, 0, 0, 0.4);
     }
 
-    /* ── Cinematic Grain Overlay (Increased Opacity) ── */
+    /* ── Cinematic Grain Overlay ── */
     .grain-overlay {
       position: fixed; inset: 0; z-index: 9999;
       pointer-events: none; opacity: 0.06;
@@ -180,31 +180,12 @@
     .dynamic-island {
       position: absolute; top: 12px; left: 50%; transform: translateX(-50%);
       width: 120px; height: 32px; background: #000;
-      border-radius: 20px; z-index: 30;
+      border-radius: 20px; z-index: 40;
       box-shadow: inset 0 -1px 2px rgba(255,255,255,0.1);
     }
     .iphone-btn {
       position: absolute; background: #334155; border-radius: 2px;
       box-shadow: inset 1px 0 2px rgba(255,255,255,0.2);
-    }
-
-    /* ── IMAGE SLIDER FOR 1st PHONE ── */
-    .image-slider {
-      position: relative; width: 100%; height: 100%; background: #000;
-    }
-    .slider-img {
-      position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
-      opacity: 0; animation: crossfade 12s infinite;
-    }
-    .slider-img:nth-child(1) { animation-delay: 0s; }
-    .slider-img:nth-child(2) { animation-delay: 4s; }
-    .slider-img:nth-child(3) { animation-delay: 8s; }
-    @keyframes crossfade {
-      0% { opacity: 0; }
-      10% { opacity: 1; }
-      33% { opacity: 1; }
-      43% { opacity: 0; }
-      100% { opacity: 0; }
     }
 
     /* ── Timeline ── */
@@ -325,7 +306,6 @@
     </div>
 
       <div class="flex items-center gap-4">
-        <!-- Theme Toggle Button -->
         <button id="themeToggle" class="w-10 h-10 flex items-center justify-center rounded-full text-text-secondary glass-panel hover:text-accent hover:border-accent hover:scale-110 click-shrink transition-all shadow-md">
           <i class="fa-solid fa-moon dark:hidden"></i>
           <i class="fa-solid fa-sun hidden dark:block text-amber-300 drop-shadow-[0_0_10px_rgba(252,211,77,0.8)]"></i>
@@ -379,7 +359,7 @@
       </div>
 
       <div class="flex justify-center lg:justify-end reveal-node" style="transition-delay: 0.2s;">
-        <!-- First Phone: The Image Slider -->
+        <!-- First Phone: The 3-Image Slider -->
         <div class="iphone-frame scale-[0.85] sm:scale-100 origin-center lg:origin-right">
           <div class="iphone-btn left-[-16px] top-[110px] w-[4px] h-[26px]"></div>
           <div class="iphone-btn left-[-16px] top-[160px] w-[4px] h-[50px]"></div>
@@ -389,15 +369,13 @@
           <div class="iphone-screen bg-black">
             <div class="dynamic-island"></div>
             
-            <!-- FIXED: Custom 3-Image Slider -->
-            <div class="image-slider">
-              <!-- Change these links to your actual 3 photos -->
-              <img class="slider-img" src="https://i.ibb.co/xSpVShBd/Whats-App-Image-2026-07-01-at-1-15-09-PM-1.jpg" alt="Shreyash Image 1">
-              <img class="slider-img" src="https://i.ibb.co/xSpVShBd/Whats-App-Image-2026-07-01-at-1-15-09-PM-1.jpg" alt="Shreyash Image 2">
-              <img class="slider-img" src="https://i.ibb.co/xSpVShBd/Whats-App-Image-2026-07-01-at-1-15-09-PM-1.jpg" alt="Shreyash Image 3">
+            <!-- JS IMAGE CROSSFADER STRUCTURE -->
+            <div class="relative w-full h-full bg-black">
+              <img id="slider-img-1" class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-100 z-10" alt="Slide 1">
+              <img id="slider-img-2" class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0 z-20" alt="Slide 2">
             </div>
 
-            <div class="absolute top-4 left-6 right-6 flex items-center justify-between text-[11px] text-white/90 z-20 font-bold drop-shadow-md pointer-events-none">
+            <div class="absolute top-4 left-6 right-6 flex items-center justify-between text-[11px] text-white/90 z-30 font-bold drop-shadow-md pointer-events-none">
               <span>9:41</span>
               <div class="flex gap-2">
                 <i class="fa-solid fa-signal"></i>
@@ -512,10 +490,10 @@
         <h2 class="text-4xl sm:text-5xl lg:text-6xl font-bold mt-2 tracking-tighter text-text-primary">How My Content Is Generated</h2>
       </div>
 
-      <!-- Two-Column Grid: Text on Left, Sticky Phone on Right -->
+      <!-- Two-Column Grid -->
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
         
-        <!-- Left Side: The Scrolling Timeline Steps (Takes up 7 out of 12 columns) -->
+        <!-- Left Side: The Scrolling Timeline Steps -->
         <div class="lg:col-span-7 order-2 lg:order-1">
           <div class="relative pl-12 sm:pl-16">
             <div class="timeline-line shadow-[0_0_10px_rgba(217,70,239,0.5)]"></div>
@@ -567,7 +545,7 @@
           </div>
         </div>
 
-        <!-- Right Side: Sticky Phone Container (Takes up 5 out of 12 columns) -->
+        <!-- Right Side: Sticky Phone Container -->
         <div class="lg:col-span-5 order-1 lg:order-2 lg:sticky lg:top-32 h-fit flex justify-center lg:justify-end reveal-node" style="transition-delay: 0.2s;">
           <div class="iphone-frame scale-[0.85] sm:scale-100 origin-center lg:origin-right">
             <div class="iphone-btn left-[-16px] top-[110px] w-[4px] h-[26px]"></div>
@@ -578,8 +556,16 @@
             <div class="iphone-screen bg-black">
               <div class="dynamic-island"></div>
               
-              <!-- iOS Status Bar (pointer-events-none added to avoid blocking clicks) -->
-              <div class="absolute top-4 left-6 right-6 flex items-center justify-between text-[11px] text-white/90 z-20 font-bold drop-shadow-md pointer-events-none">
+              <!-- JS VIDEO CROSSFADER STRUCTURE -->
+              <div class="relative w-full h-full bg-black">
+                <!-- First video file (currently set to your Catbox link) -->
+                <video id="slider-vid-1" class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-100 z-10" src="https://files.catbox.moe/m2u0dp.mp4" muted playsinline preload="auto"></video>
+                <!-- Second video file (replace this link with your 2nd video link) -->
+                <video id="slider-vid-2" class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0 z-20" src="https://files.catbox.moe/m2u0dp.mp4" muted playsinline preload="auto"></video>
+              </div>
+
+              <!-- iOS Status Bar -->
+              <div class="absolute top-4 left-6 right-6 flex items-center justify-between text-[11px] text-white/90 z-30 font-bold drop-shadow-md pointer-events-none">
                 <span>9:41</span>
                 <div class="flex gap-2">
                   <i class="fa-solid fa-signal"></i>
@@ -587,19 +573,6 @@
                   <i class="fa-solid fa-battery-full"></i>
                 </div>
               </div>
-
-              <!-- FIXED: Second Phone Video with id and explicit type -->
-              <video 
-                id="process-video"
-                class="w-full h-full object-cover" 
-                src="https://files.catbox.moe/m2u0dp.mp4" 
-                autoplay 
-                loop 
-                muted 
-                playsinline
-                preload="auto"
-                type="video/mp4">
-              </video>
             </div>
           </div>
         </div>
@@ -832,7 +805,7 @@
         htmlEl.classList.toggle('dark');
       });
 
-      // ── Native Interactive Particle Field Engine (Subtle & Fluid) ──
+      // ── Native Interactive Particle Field Engine ──
       const canvas = document.getElementById('particle-canvas');
       const ctx = canvas.getContext('2d');
 
@@ -840,81 +813,54 @@
       const numberOfParticles = 80; 
       const connectionDistance = 160; 
       
-      const mouse = {
-        x: null,
-        y: null,
-        radius: 140 
-      };
-
-      let cameraDriftX = 0;
-      let cameraDriftY = 0;
+      const mouse = { x: null, y: null, radius: 140 };
+      let cameraDriftX = 0; let cameraDriftY = 0;
 
       window.addEventListener('mousemove', (event) => {
-        mouse.x = event.clientX;
-        mouse.y = event.clientY;
-        
+        mouse.x = event.clientX; mouse.y = event.clientY;
         cameraDriftX = ((window.innerWidth / 2) - mouse.x) * 0.015;
         cameraDriftY = ((window.innerHeight / 2) - mouse.y) * 0.015;
       });
 
       window.addEventListener('mouseout', () => {
-        mouse.x = null;
-        mouse.y = null;
-        cameraDriftX = 0;
-        cameraDriftY = 0;
+        mouse.x = null; mouse.y = null; cameraDriftX = 0; cameraDriftY = 0;
       });
 
       function resizeCanvas() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
         initParticles();
       }
 
       class Particle {
         constructor() {
-          this.x = Math.random() * canvas.width;
-          this.y = Math.random() * canvas.height;
+          this.x = Math.random() * canvas.width; this.y = Math.random() * canvas.height;
           this.size = Math.random() * 1.8 + 0.5; 
-          this.speedX = (Math.random() - 0.5) * 0.4;
-          this.speedY = (Math.random() - 0.5) * 0.4;
+          this.speedX = (Math.random() - 0.5) * 0.4; this.speedY = (Math.random() - 0.5) * 0.4;
         }
-
         update() {
-          this.x += this.speedX + (cameraDriftX * 0.03);
-          this.y += this.speedY + (cameraDriftY * 0.03);
-
-          if (this.x > canvas.width) this.x = 0;
-          else if (this.x < 0) this.x = canvas.width;
-          if (this.y > canvas.height) this.y = 0;
-          else if (this.y < 0) this.y = canvas.height;
+          this.x += this.speedX + (cameraDriftX * 0.03); this.y += this.speedY + (cameraDriftY * 0.03);
+          if (this.x > canvas.width) this.x = 0; else if (this.x < 0) this.x = canvas.width;
+          if (this.y > canvas.height) this.y = 0; else if (this.y < 0) this.y = canvas.height;
 
           if (mouse.x != null && mouse.y != null) {
-            let dx = this.x - mouse.x;
-            let dy = this.y - mouse.y;
+            let dx = this.x - mouse.x; let dy = this.y - mouse.y;
             let distance = Math.sqrt(dx * dx + dy * dy);
             if (distance < mouse.radius) {
               let force = (mouse.radius - distance) / mouse.radius;
-              let directionX = dx / distance;
-              let directionY = dy / distance;
-              this.x += directionX * force * 1.2;
-              this.y += directionY * force * 1.2;
+              let directionX = dx / distance; let directionY = dy / distance;
+              this.x += directionX * force * 1.2; this.y += directionY * force * 1.2;
             }
           }
         }
-
         draw(isDark) {
           ctx.fillStyle = isDark ? 'rgba(248, 250, 252, 0.4)' : 'rgba(15, 23, 42, 0.3)'; 
-          ctx.beginPath();
-          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-          ctx.fill();
+          ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
         }
       }
 
       function initParticles() {
         particlesArray = [];
-        for (let i = 0; i < numberOfParticles; i++) {
-          particlesArray.push(new Particle());
-        }
+        for (let i = 0; i < numberOfParticles; i++) particlesArray.push(new Particle());
       }
 
       function connectParticles(isDark) {
@@ -923,18 +869,10 @@
             let dx = particlesArray[a].x - particlesArray[b].x;
             let dy = particlesArray[a].y - particlesArray[b].y;
             let distance = Math.sqrt(dx * dx + dy * dy);
-
             if (distance < connectionDistance) {
               let opacity = (1 - (distance / connectionDistance));
-              
-              if(isDark) {
-                 ctx.strokeStyle = `rgba(56, 189, 248, ${opacity * 0.2})`; 
-              } else {
-                 ctx.strokeStyle = `rgba(2, 132, 199, ${opacity * 0.15})`; 
-              }
-              
-              ctx.lineWidth = 1;
-              ctx.beginPath();
+              ctx.strokeStyle = isDark ? `rgba(56, 189, 248, ${opacity * 0.2})` : `rgba(2, 132, 199, ${opacity * 0.15})`; 
+              ctx.lineWidth = 1; ctx.beginPath();
               ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
               ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
               ctx.stroke();
@@ -946,56 +884,34 @@
       function animate() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         const isDark = htmlEl.classList.contains('dark');
-
         for (let i = 0; i < particlesArray.length; i++) {
-          particlesArray[i].update();
-          particlesArray[i].draw(isDark);
+          particlesArray[i].update(); particlesArray[i].draw(isDark);
         }
-        connectParticles(isDark);
-        requestAnimationFrame(animate);
+        connectParticles(isDark); requestAnimationFrame(animate);
       }
-
-      window.addEventListener('resize', resizeCanvas);
-      resizeCanvas();
-      animate();
+      window.addEventListener('resize', resizeCanvas); resizeCanvas(); animate();
 
       // ── Cinematic Redirect Animation ──
-      const redirectOverlay = document.createElement('div');
-      redirectOverlay.className = 'redirect-overlay';
-      const redirectIconWrapper = document.createElement('div');
-      redirectIconWrapper.className = 'redirect-icon-wrapper';
-      redirectOverlay.appendChild(redirectIconWrapper);
-      document.body.appendChild(redirectOverlay);
-
+      const redirectOverlay = document.createElement('div'); redirectOverlay.className = 'redirect-overlay';
+      const redirectIconWrapper = document.createElement('div'); redirectIconWrapper.className = 'redirect-icon-wrapper';
+      redirectOverlay.appendChild(redirectIconWrapper); document.body.appendChild(redirectOverlay);
       const socialLinks = document.querySelectorAll('.social-card');
 
       socialLinks.forEach(link => {
         link.addEventListener('click', function(e) {
           if (this.href.startsWith('mailto:')) return;
-          
           e.preventDefault(); 
-          
-          const targetUrl = this.href;
-          const targetBlank = this.target === '_blank';
+          const targetUrl = this.href; const targetBlank = this.target === '_blank';
           const iconElement = this.querySelector('i');
           
           if (iconElement) {
             redirectIconWrapper.innerHTML = iconElement.outerHTML;
-            const computedStyle = window.getComputedStyle(this);
-            redirectIconWrapper.style.color = computedStyle.color;
+            redirectIconWrapper.style.color = window.getComputedStyle(this).color;
           }
-
-          requestAnimationFrame(() => {
-            redirectOverlay.classList.add('active');
-          });
-
+          requestAnimationFrame(() => redirectOverlay.classList.add('active'));
           setTimeout(() => {
-            if (targetBlank) {
-              window.open(targetUrl, '_blank');
-              redirectOverlay.classList.remove('active');
-            } else {
-              window.location.href = targetUrl;
-            }
+            if (targetBlank) { window.open(targetUrl, '_blank'); redirectOverlay.classList.remove('active'); } 
+            else { window.location.href = targetUrl; }
           }, 1100); 
         });
       });
@@ -1004,21 +920,17 @@
       const revealObserver = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible');
-            revealObserver.unobserve(entry.target);
+            entry.target.classList.add('is-visible'); revealObserver.unobserve(entry.target);
           }
         });
       }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-      
       document.querySelectorAll('.reveal-node').forEach((node) => revealObserver.observe(node));
 
       document.querySelectorAll('.spotlight-card').forEach((card) => {
         card.addEventListener('mousemove', (e) => {
           const rect = card.getBoundingClientRect();
-          const x = e.clientX - rect.left;
-          const y = e.clientY - rect.top;
-          card.style.setProperty('--mouse-x', `${x}px`);
-          card.style.setProperty('--mouse-y', `${y}px`);
+          card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+          card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
         });
       });
 
@@ -1029,21 +941,16 @@
       function toggleMenu() {
         isMenuOpen = !isMenuOpen;
         if (isMenuOpen) {
-          mobileMenu.classList.remove('hidden');
-          mobileMenu.classList.add('flex');
+          mobileMenu.classList.remove('hidden'); mobileMenu.classList.add('flex');
           mobileToggle.innerHTML = '<i class="fa-solid fa-xmark text-xl"></i>';
         } else {
-          mobileMenu.classList.add('hidden');
-          mobileMenu.classList.remove('flex');
+          mobileMenu.classList.add('hidden'); mobileMenu.classList.remove('flex');
           mobileToggle.innerHTML = '<i class="fa-solid fa-bars text-xl"></i>';
         }
       }
-
       mobileToggle.addEventListener('click', toggleMenu);
       document.querySelectorAll('.mobile-link').forEach(link => {
-        link.addEventListener('click', () => {
-          if(isMenuOpen) toggleMenu();
-        });
+        link.addEventListener('click', () => { if(isMenuOpen) toggleMenu(); });
       });
 
       document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -1051,35 +958,82 @@
           e.preventDefault();
           const target = document.querySelector(this.getAttribute('href'));
           if (target) {
-            const offset = 100;
-            const elementPosition = target.getBoundingClientRect().top;
-            const offsetPosition = elementPosition + window.pageYOffset - offset;
-            window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+            window.scrollTo({ top: target.getBoundingClientRect().top + window.pageYOffset - 100, behavior: 'smooth' });
           }
         });
       });
 
-      // ── FIXED: Force Video Playback for Second Phone ──
-      const processVideo = document.getElementById('process-video');
-      if(processVideo) {
-        // Try to play immediately
-        const playPromise = processVideo.play();
-        if (playPromise !== undefined) {
-          playPromise.catch(error => {
-            console.log("Browser blocked autoplay. Waiting for user interaction...");
-            // If blocked, wait for the user to touch or click anywhere, then force play
-            const forcePlay = () => {
-              processVideo.play();
-              // Remove the listeners once it successfully plays
-              document.body.removeEventListener('click', forcePlay);
-              document.body.removeEventListener('scroll', forcePlay);
-              document.body.removeEventListener('touchstart', forcePlay);
-            };
-            document.body.addEventListener('click', forcePlay);
-            document.body.addEventListener('scroll', forcePlay);
-            document.body.addEventListener('touchstart', forcePlay);
-          });
-        }
+    
+      // ── Perfect Image Crossfade for First Phone ──
+      const myImages = [
+        "https://i.ibb.co/xSpVShBd/Whats-App-Image-2026-07-01-at-1-15-09-PM-1.jpg", 
+        "https://i.ibb.co/mCmgBy1M/Whats-App-Image-2026-07-01-at-1-15-09-PM.jpg", 
+        "https://i.ibb.co/99CvzYw1/Whats-App-Image-2026-07-01-at-1-15-10-PM.jpg"   
+      ];
+      
+      let currentImgIndex = 0;
+      let isImg1Active = true;
+      const img1 = document.getElementById('slider-img-1');
+      const img2 = document.getElementById('slider-img-2');
+      
+      if (img1 && img2) {
+        img1.src = myImages[0];
+        setInterval(() => {
+          currentImgIndex = (currentImgIndex + 1) % myImages.length;
+          if (isImg1Active) {
+            img2.src = myImages[currentImgIndex];
+            img2.classList.remove('opacity-0'); img2.classList.add('opacity-100');
+            img1.classList.remove('opacity-100'); img1.classList.add('opacity-0');
+          } else {
+            img1.src = myImages[currentImgIndex];
+            img1.classList.remove('opacity-0'); img1.classList.add('opacity-100');
+            img2.classList.remove('opacity-100'); img2.classList.add('opacity-0');
+          }
+          isImg1Active = !isImg1Active;
+        }, 4000); // Crossfades every 4 seconds
+      }
+
+      // ── Perfect Video Crossfade for Second Phone ──
+      const vid1 = document.getElementById('slider-vid-1');
+      const vid2 = document.getElementById('slider-vid-2');
+      let isVid1Active = true;
+
+      if (vid1 && vid2) {
+        const playVideo = (vid) => {
+          const p = vid.play();
+          if (p !== undefined) {
+            p.catch(error => {
+              console.log("Browser blocked autoplay. Waiting for user interaction...");
+              const forcePlay = () => { vid.play(); document.body.removeEventListener('click', forcePlay); };
+              document.body.addEventListener('click', forcePlay, { once: true });
+            });
+          }
+        };
+
+        // Start first video immediately
+        playVideo(vid1);
+
+        // When the active video ends, crossfade to the other video
+        const swapVideos = () => {
+          if (isVid1Active) {
+            vid2.currentTime = 0; 
+            playVideo(vid2);
+            vid2.classList.remove('opacity-0'); vid2.classList.add('opacity-100');
+            vid1.classList.remove('opacity-100'); vid1.classList.add('opacity-0');
+            setTimeout(() => { vid1.pause(); }, 1000); 
+          } else {
+            vid1.currentTime = 0;
+            playVideo(vid1);
+            vid1.classList.remove('opacity-0'); vid1.classList.add('opacity-100');
+            vid2.classList.remove('opacity-100'); vid2.classList.add('opacity-0');
+            setTimeout(() => { vid2.pause(); }, 1000);
+          }
+          isVid1Active = !isVid1Active;
+        };
+
+        // Trigger swap exactly when a video finishes playing
+        vid1.addEventListener('ended', swapVideos);
+        vid2.addEventListener('ended', swapVideos);
       }
 
     });
