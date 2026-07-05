@@ -188,6 +188,25 @@
       box-shadow: inset 1px 0 2px rgba(255,255,255,0.2);
     }
 
+    /* ── IMAGE SLIDER FOR 1st PHONE ── */
+    .image-slider {
+      position: relative; width: 100%; height: 100%; background: #000;
+    }
+    .slider-img {
+      position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+      opacity: 0; animation: crossfade 12s infinite;
+    }
+    .slider-img:nth-child(1) { animation-delay: 0s; }
+    .slider-img:nth-child(2) { animation-delay: 4s; }
+    .slider-img:nth-child(3) { animation-delay: 8s; }
+    @keyframes crossfade {
+      0% { opacity: 0; }
+      10% { opacity: 1; }
+      33% { opacity: 1; }
+      43% { opacity: 0; }
+      100% { opacity: 0; }
+    }
+
     /* ── Timeline ── */
     .timeline-line {
       position: absolute; left: 15px; top: 0; bottom: 0; width: 2px;
@@ -360,26 +379,23 @@
       </div>
 
       <div class="flex justify-center lg:justify-end reveal-node" style="transition-delay: 0.2s;">
+        <!-- First Phone: The Image Slider -->
         <div class="iphone-frame scale-[0.85] sm:scale-100 origin-center lg:origin-right">
           <div class="iphone-btn left-[-16px] top-[110px] w-[4px] h-[26px]"></div>
           <div class="iphone-btn left-[-16px] top-[160px] w-[4px] h-[50px]"></div>
           <div class="iphone-btn left-[-16px] top-[230px] w-[4px] h-[50px]"></div>
           <div class="iphone-btn right-[-16px] top-[180px] w-[4px] h-[70px]"></div>
           
-          <div class="iphone-screen">
+          <div class="iphone-screen bg-black">
             <div class="dynamic-island"></div>
             
-            <!-- Kept the first phone as the original local video file setup -->
-          <video 
-  class="w-full h-full object-cover" 
-  src="https://files.catbox.moe/m2u0dp.mp4" 
-  autoplay 
-  loop 
-  muted 
-  playsinline
-  preload="auto"
-  type="video/mp4">
-</video>
+            <!-- NEW 3 Image Slider -->
+            <div class="image-slider">
+              <!-- You can change these 3 image links to whatever images you want to show -->
+              <img class="slider-img" src="https://i.ibb.co/xSpVShBd/Whats-App-Image-2026-07-01-at-1-15-09-PM-1.jpg" alt="Shreyash Image 1">
+              <img class="slider-img" src="https://i.ibb.co/xSpVShBd/Whats-App-Image-2026-07-01-at-1-15-09-PM-1.jpg" alt="Shreyash Image 2">
+              <img class="slider-img" src="https://i.ibb.co/xSpVShBd/Whats-App-Image-2026-07-01-at-1-15-09-PM-1.jpg" alt="Shreyash Image 3">
+            </div>
 
             <div class="absolute top-4 left-6 right-6 flex items-center justify-between text-[11px] text-white/90 z-20 font-bold drop-shadow-md pointer-events-none">
               <span>9:41</span>
@@ -551,7 +567,7 @@
           </div>
         </div>
 
-        <!-- Right Side: Sticky Phone Container (Takes up 5 out of 12 columns) -->
+        <!-- Right Side: Sticky Phone Container -->
         <div class="lg:col-span-5 order-1 lg:order-2 lg:sticky lg:top-32 h-fit flex justify-center lg:justify-end reveal-node" style="transition-delay: 0.2s;">
           <div class="iphone-frame scale-[0.85] sm:scale-100 origin-center lg:origin-right">
             <div class="iphone-btn left-[-16px] top-[110px] w-[4px] h-[26px]"></div>
@@ -559,11 +575,21 @@
             <div class="iphone-btn left-[-16px] top-[230px] w-[4px] h-[50px]"></div>
             <div class="iphone-btn right-[-16px] top-[180px] w-[4px] h-[70px]"></div>
             
-            <!-- Updated iPhone Screen with YouTube Iframe Embed -->
             <div class="iphone-screen bg-black">
               <div class="dynamic-island"></div>
               
-              <!-- iOS Status Bar (pointer-events-none added to avoid blocking clicks) -->
+              <!-- Second Phone: Catbox Video -->
+              <video 
+                id="process-video"
+                class="w-full h-full object-cover" 
+                src="https://files.catbox.moe/m2u0dp.mp4" 
+                autoplay 
+                loop 
+                muted 
+                playsinline
+                preload="auto">
+              </video>
+
               <div class="absolute top-4 left-6 right-6 flex items-center justify-between text-[11px] text-white/90 z-20 font-bold drop-shadow-md pointer-events-none">
                 <span>9:41</span>
                 <div class="flex gap-2">
@@ -572,16 +598,6 @@
                   <i class="fa-solid fa-battery-full"></i>
                 </div>
               </div>
-
-          <video 
-  class="w-full h-full object-cover" 
-  src="https://files.catbox.moe/m2u0dp.mp4" 
-  autoplay 
-  loop 
-  muted 
-  playsinline
-  preload="auto">
-</video>
             </div>
           </div>
         </div>
@@ -1040,6 +1056,21 @@
           }
         });
       });
+
+      // ── Force Video Playback for Second Phone ──
+      const processVideo = document.getElementById('process-video');
+      if(processVideo) {
+        processVideo.play().catch(error => {
+          console.log("Browser autoplay blocked. Waiting for user interaction.");
+          // If browser blocks it, it will play the second the user interacts with the page
+          document.body.addEventListener('click', () => {
+            processVideo.play();
+          }, { once: true });
+          document.body.addEventListener('scroll', () => {
+            processVideo.play();
+          }, { once: true });
+        });
+      }
     });
   </script>
 </body>
