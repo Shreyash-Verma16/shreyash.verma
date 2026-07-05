@@ -389,9 +389,9 @@
           <div class="iphone-screen bg-black">
             <div class="dynamic-island"></div>
             
-            <!-- NEW 3 Image Slider -->
+            <!-- FIXED: Custom 3-Image Slider -->
             <div class="image-slider">
-              <!-- You can change these 3 image links to whatever images you want to show -->
+              <!-- Change these links to your actual 3 photos -->
               <img class="slider-img" src="https://i.ibb.co/xSpVShBd/Whats-App-Image-2026-07-01-at-1-15-09-PM-1.jpg" alt="Shreyash Image 1">
               <img class="slider-img" src="https://i.ibb.co/xSpVShBd/Whats-App-Image-2026-07-01-at-1-15-09-PM-1.jpg" alt="Shreyash Image 2">
               <img class="slider-img" src="https://i.ibb.co/xSpVShBd/Whats-App-Image-2026-07-01-at-1-15-09-PM-1.jpg" alt="Shreyash Image 3">
@@ -567,7 +567,7 @@
           </div>
         </div>
 
-        <!-- Right Side: Sticky Phone Container -->
+        <!-- Right Side: Sticky Phone Container (Takes up 5 out of 12 columns) -->
         <div class="lg:col-span-5 order-1 lg:order-2 lg:sticky lg:top-32 h-fit flex justify-center lg:justify-end reveal-node" style="transition-delay: 0.2s;">
           <div class="iphone-frame scale-[0.85] sm:scale-100 origin-center lg:origin-right">
             <div class="iphone-btn left-[-16px] top-[110px] w-[4px] h-[26px]"></div>
@@ -578,18 +578,7 @@
             <div class="iphone-screen bg-black">
               <div class="dynamic-island"></div>
               
-              <!-- Second Phone: Catbox Video -->
-              <video 
-                id="process-video"
-                class="w-full h-full object-cover" 
-                src="https://files.catbox.moe/m2u0dp.mp4" 
-                autoplay 
-                loop 
-                muted 
-                playsinline
-                preload="auto">
-              </video>
-
+              <!-- iOS Status Bar (pointer-events-none added to avoid blocking clicks) -->
               <div class="absolute top-4 left-6 right-6 flex items-center justify-between text-[11px] text-white/90 z-20 font-bold drop-shadow-md pointer-events-none">
                 <span>9:41</span>
                 <div class="flex gap-2">
@@ -598,6 +587,19 @@
                   <i class="fa-solid fa-battery-full"></i>
                 </div>
               </div>
+
+              <!-- FIXED: Second Phone Video with id and explicit type -->
+              <video 
+                id="process-video"
+                class="w-full h-full object-cover" 
+                src="https://files.catbox.moe/m2u0dp.mp4" 
+                autoplay 
+                loop 
+                muted 
+                playsinline
+                preload="auto"
+                type="video/mp4">
+              </video>
             </div>
           </div>
         </div>
@@ -1057,20 +1059,29 @@
         });
       });
 
-      // ── Force Video Playback for Second Phone ──
+      // ── FIXED: Force Video Playback for Second Phone ──
       const processVideo = document.getElementById('process-video');
       if(processVideo) {
-        processVideo.play().catch(error => {
-          console.log("Browser autoplay blocked. Waiting for user interaction.");
-          // If browser blocks it, it will play the second the user interacts with the page
-          document.body.addEventListener('click', () => {
-            processVideo.play();
-          }, { once: true });
-          document.body.addEventListener('scroll', () => {
-            processVideo.play();
-          }, { once: true });
-        });
+        // Try to play immediately
+        const playPromise = processVideo.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(error => {
+            console.log("Browser blocked autoplay. Waiting for user interaction...");
+            // If blocked, wait for the user to touch or click anywhere, then force play
+            const forcePlay = () => {
+              processVideo.play();
+              // Remove the listeners once it successfully plays
+              document.body.removeEventListener('click', forcePlay);
+              document.body.removeEventListener('scroll', forcePlay);
+              document.body.removeEventListener('touchstart', forcePlay);
+            };
+            document.body.addEventListener('click', forcePlay);
+            document.body.addEventListener('scroll', forcePlay);
+            document.body.addEventListener('touchstart', forcePlay);
+          });
+        }
       }
+
     });
   </script>
 </body>
